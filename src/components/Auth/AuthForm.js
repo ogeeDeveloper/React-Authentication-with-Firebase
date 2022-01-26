@@ -21,6 +21,7 @@ const AuthForm = () => {
 
     // TODO: Add validations
 
+    setIsLoading(true);
     //Checks if mode is login else do the login logics
     if (isLogin) {
     } else {
@@ -39,6 +40,7 @@ const AuthForm = () => {
           },
         }
       ).then((res) => {
+        setIsLoading(false);
         if (res.ok) {
           // TODO: Seds back some information
         } else {
@@ -74,7 +76,10 @@ const AuthForm = () => {
           />
         </div>
         <div className={classes.actions}>
-          <button>{isLogin ? "Login" : "Create Account"}</button>
+          {!isLoading && (
+            <button>{isLogin ? "Login" : "Create Account"}</button>
+          )}
+          {isLoading && <p>Loading, please wait...</p>}
           <button
             type="button"
             className={classes.toggle}
