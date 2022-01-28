@@ -1,9 +1,12 @@
 import { useState, useRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 
 import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
+  const history = useHistory();
+
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,20 +59,25 @@ const AuthForm = () => {
           return res.json().then((data) => {
             // Show Error
             let errorMessage = "Your Authenticationn failed";
+
             // Checks if data have an
-            if (data && data.error && data.error.message) {
-              errorMessage = data.error.message;
-              throw new Error(errorMessage);
-            }
+            // if (data && data.error && data.error.message) {
+            //   errorMessage = data.error.message;
+            // }
+
+            throw new Error(errorMessage);
           });
         }
       })
       .then((data) => {
         // success status if we dont have any error
         console.log(data);
-
         // Set the token for the auth context
         authCtx.login(data.idToken);
+        // Redirect Users to the Profile Page
+        history.replace("/");
+
+        console.log(authCtx.token);
       })
       .catch((error) => {
         // If we have error,
