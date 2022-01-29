@@ -10,7 +10,7 @@ const MainNavigation = () => {
   const isLoggedIn = authCtx.isLogIn;
 
   const logoutHandler = () => {
-    authCtx.login();
+    authCtx.logout();
   };
 
   return (
