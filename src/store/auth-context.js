@@ -8,8 +8,11 @@ const AuthContext = createContext({
 });
 
 export const AuthContextProvider = (props) => {
+  //Checking if toke exist in localStorage, if exist autenticate user
+  const initialToken = localStorage.getItem("access_token");
+
   //State for managing the token
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(initialToken);
 
   //Check if user is logged in
   const userIsLoggedIn = !!token;
@@ -17,11 +20,15 @@ export const AuthContextProvider = (props) => {
   // Login Helper Function
   const loginHandler = (token) => {
     setToken(token);
+    // Storing token in localstorage
+    localStorage.setItem("access_token", token);
   };
 
   // Logout Helper Function
   const logoutHandler = () => {
     setToken(false);
+    // Removes the token from the browser storage
+    localStorage.removeItem("access_token");
   };
 
   // Create the ContextValue object to hold all values that will be used for the context
