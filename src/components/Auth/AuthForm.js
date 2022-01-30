@@ -58,7 +58,7 @@ const AuthForm = () => {
         } else {
           return res.json().then((data) => {
             // Show Error
-            let errorMessage = "Your Authenticationn failed";
+            let errorMessage = "Authenticationn failed";
 
             // Checks if data have an
             // if (data && data.error && data.error.message) {
@@ -72,8 +72,14 @@ const AuthForm = () => {
       .then((data) => {
         // success status if we dont have any error
         console.log(data);
+
+        // Trasform expireIn i the response from string to Date
+        const expirationTime = new Date(
+          new Date().getTime() + +data.expiresIn * 1000
+        );
+
         // Set the token for the auth context
-        authCtx.login(data.idToken);
+        authCtx.login(data.idToken, expirationTime.toISOString());
         // Redirect Users to the Profile Page
         history.replace("/");
 
